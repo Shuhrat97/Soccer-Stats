@@ -12,6 +12,7 @@ class DetailSeasonTableViewCell: UITableViewCell {
     private let rankLbl:UILabel = {
         let lbl = UILabel()
         lbl.numberOfLines = 1
+        lbl.font = lbl.font.withSize(15)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -24,7 +25,9 @@ class DetailSeasonTableViewCell: UITableViewCell {
     
     private let nameLbl:UILabel = {
         let lbl = UILabel()
-        lbl.numberOfLines = 2
+        lbl.numberOfLines = 0
+        lbl.font = lbl.font.withSize(15)
+        lbl.lineBreakMode = .byWordWrapping
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -81,16 +84,17 @@ class DetailSeasonTableViewCell: UITableViewCell {
         
         rankLbl.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
         rankLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
+//        rankLbl.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         imgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        imgView.leftAnchor.constraint(equalTo: rankLbl.rightAnchor, constant: 10).isActive = true
+        imgView.leftAnchor.constraint(equalTo: rankLbl.rightAnchor, constant: 5).isActive = true
         imgView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         imgView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         imgView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         
-        nameLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
-        nameLbl.leftAnchor.constraint(equalTo: imgView.rightAnchor, constant: 10).isActive = true
-        nameLbl.rightAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10).isActive = true
+        nameLbl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        nameLbl.leftAnchor.constraint(equalTo: imgView.rightAnchor, constant: 5).isActive = true
+        nameLbl.rightAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 10).isActive = true
         
         stackView.addArrangedSubview(gamePlayedLbl)
         stackView.addArrangedSubview(winsLbl)
@@ -108,12 +112,12 @@ class DetailSeasonTableViewCell: UITableViewCell {
     }
     
     func reload(index:Int, standing:Standing){
+        self.rankLbl.text = "\(index+1)"
         if let urlString = standing.team.logos.first?.href {
             self.imgView.load(url: URL(string: urlString)!)
         }
         
         self.nameLbl.text = standing.team.name
-        self.rankLbl.text = "\(index+1)"
         
         self.winsLbl.text = standing.stats[0].displayValue
         self.loseLbl.text = standing.stats[1].displayValue
